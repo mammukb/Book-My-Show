@@ -1,14 +1,29 @@
 import React from "react";
-import Heroslider from "react-slick";
-import {GrFormPrevious } from "react-icons/gr"
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 
 // Component
    import { NextArrow ,PrevArrow} from "./Arrow.Component";
+   import Heroslider from "react-slick";
+import {GrFormPrevious } from "react-icons/gr"
 
 
 
 const HeroCarousel = () => {
+
+   const [images , setImages] = useState([]);
+
+   useEffect( () => {
+    const requestNowPlaying = async() => {
+        const getImages = await axios.get("/movie/now_playing");
+        console.log(getImages);
+        setImages(getImages.data.results);
+    }
+        requestNowPlaying();
+      
+   } , []  );
+
 const settingsLg =  {
   arrows: true,
   autoplay: true,
@@ -31,13 +46,7 @@ const settingsLg =  {
     nextArrow : <NextArrow  />,
     prevArrow : <PrevArrow />
   };
-  const images = [
-    "https://images.unsplash.com/photo-1684577088722-d46fd87aaa09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80",
-    "https://images.unsplash.com/photo-1683151671047-8c6b4ea30320?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-    "https://images.unsplash.com/photo-1684135407084-3f2e019f390d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-    "https://images.unsplash.com/photo-1684508405245-3d3dac130dfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=433&q=80",
-    "https://images.unsplash.com/photo-1684523952971-4d86507b5155?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-  ];
+ 
 
   return (
     <>
@@ -47,7 +56,7 @@ const settingsLg =  {
         images.map((image) => {
             return(
             <div className="w-full h-64 md:80 py-3">
-            <img src={image}  alt="slider"  className="w-full h-full rounded-md"/>
+            <img src={`https://image.tmdb.org/t/p/original${image.backdrop_path}`}  alt="slider"  className="w-full h-full rounded-md"/>
           </div>);
           
         })
@@ -63,7 +72,7 @@ const settingsLg =  {
         images.map((image) => {
             return(
             <div className="w-full h-96 px-2 py-3">
-            <img src={image}  alt="slider"  className="w-full h-full rounded-md"/>
+            <img src={`https://image.tmdb.org/t/p/original${image.backdrop_path}`}  alt="slider"  className="w-full h-full rounded-md"/>
           </div>);
           
         })
